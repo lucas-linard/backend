@@ -1,8 +1,9 @@
-import { app } from './app'
-import { conectarNoBD } from './config/bd'
+//import * as express from 'express'
+const app = require('./app')
+const conectarNoBD = require('./config/bd')
 
 const porta = process.env.PORT || 3000
-
+//const app = express()
 const server = app.listen(
     porta,
     () => {

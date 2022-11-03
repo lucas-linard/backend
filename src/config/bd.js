@@ -1,10 +1,9 @@
-import { MongoClient } from 'mongodb'
+const MongoClient = require('mongodb').MongoClient
+const app = require('../app')
 
-import { app } from '../app'
+const URI_BD = 'mongodb://127.0.0.1:27017/storage'
 
-const URI_BD = 'mongodb://localhost:27017/storage'
-
-export const conectarNoBD = async () => {
+const conectarNoBD = async () => {
     const clienteMongo = new MongoClient(URI_BD, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -27,3 +26,4 @@ export const conectarNoBD = async () => {
         console.log(erro)
     }
 }
+module.exports =  conectarNoBD

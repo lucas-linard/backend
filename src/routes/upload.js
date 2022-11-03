@@ -1,12 +1,20 @@
-import { Router } from 'express'
-import * as path from 'path'
-import * as fs from 'fs'
-import { ArquivoController, ErroUpload } from '../controllers/ArquivoController'
-import { Console } from 'console'
+//import { Router } from 'express'
+const Router = require('express').Router()
+//import * as path from 'path'
+const path = require('path')
+//import * as fs from 'fs'
+const fs = require('fs')
+const mongo = require('mongodb')
 
-export const uploadRouter = Router()
+//import { ArquivoController, ErroUpload } from '../controllers/ArquivoController'
+const ArquivoController = require('../controllers/ArquivoController').ArquivoController
+const ErroUpload = require('../controllers/ArquivoController').ErroUpload
 
-uploadRouter.post('/', async (req, res) => {
+//import { Console } from 'console'
+
+ 
+
+Router.post('/', async (req, res) => {
     if (!req.files || Object.keys(req.files).length == 0) {
         return res.status(400).send('Nenhum arquivo recebido')
     }
@@ -18,6 +26,7 @@ uploadRouter.post('/', async (req, res) => {
     }
 
     const bd = req.app.locals.bd
+//    console.log(bd)
     const arquivoCtrl = new ArquivoController(bd)    
     
     const idsArquivosSalvos = []
@@ -39,6 +48,7 @@ uploadRouter.post('/', async (req, res) => {
                     quantidadeErroObjArquivoInvalido++
                     break
                 default:
+                    console.log(erro)
                     quantidadeErroInesperado++
             }
         }
@@ -50,7 +60,9 @@ uploadRouter.post('/', async (req, res) => {
         idsArquivosSalvos,
         quantidadeErroGravacao,
         quantidadeErroInesperado,
-        quantidadeErroObjArquivoInvalido
+        quantidadeErroObjArquivoInvalido,
     })
-
+    
 })
+
+module.exports = Router

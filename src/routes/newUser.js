@@ -46,7 +46,7 @@ newUser.post("/", async (req, res) => {
         res.json({ message: insertResult });
       } catch (error) {
         res.json({ message: error });
-      }  
+      }
     } 
 });
 
