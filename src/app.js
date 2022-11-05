@@ -7,6 +7,7 @@ const logger = require('morgan')
 const uploadRouter = require('./routes/upload')
 const signgUp = require('./routes/signUp')
 const login = require('./routes/login')
+const professores = require('./routes/professores')
 // import { downloadRouter } from './routes/download'
 // import { newUser } from './routes/newUser'
 // import { novaDisciplina } from './routes/novaDisciplin
@@ -21,6 +22,7 @@ module.exports = app
 app.use('/upload', uploadRouter)
 app.use('/signUp', signgUp)
 app.use('/login', login)
+app.use('/professores', professores)
 // app.use('/download', downloadRouter)
 // app.use('/newUser', newUser)
 // app.use('/novaDisciplina', novaDisciplina)

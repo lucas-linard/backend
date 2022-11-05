@@ -40,12 +40,12 @@ singUp.post("/", async (req, res) => {
     if( validaTudo(req.query) && dados.length == 0){
       try {
         const insertResult = await collection.insertOne(req.query);
-        res.json({ message: 'OK' });
+        res.json('OK');
       } catch (error) {
-        res.json({ message: error });
+        res.json(error);
       }
     } else {
-      res.json({ message: "Entrada inválida" });
+      res.json("Entrada inválida");
     }
 });
 
