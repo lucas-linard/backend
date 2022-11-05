@@ -26,15 +26,11 @@ function validaEntrada(query) {
     return validaEntrada(query) && validaTipo(query) && validaEmail(query) ? true : false;
   }
  
-
-  
-//TODO: VERIFICAR ANTES NO BANCO SE JA EXISTE O USUARIO
-// FAZER CONDICIONAL DE RESPOSTA
-// FAZER CONDICIONAL DE ERRO
 singUp.post("/", async (req, res) => {
 
     
     const client = req.app.locals.bd
+  
 
     const collection = client.collection('Usuarios');
   
@@ -52,12 +48,5 @@ singUp.post("/", async (req, res) => {
       res.json({ message: "Entrada inválida" });
     }
 });
-
-// { id
-//     NOMEM
-//     email
-//     senha
-//     tipo : prof ou aluno
-// }
 
 module.exports = singUp;

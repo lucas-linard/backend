@@ -1,15 +1,16 @@
 const MongoClient = require('mongodb').MongoClient
 const app = require('../app')
 
-const URI_BD = 'mongodb://127.0.0.1:27017/storage'
+// TODO: guardar a chave em uma variável de ambiente
 
 const conectarNoBD = async () => {
-    const clienteMongo = new MongoClient(URI_BD, {
+    //passar a url de conexao do banco de dados
+    const clienteMongo = new MongoClient("mongodb://127.0.0.1:27017/storage", {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
 
-    try {
+        try {        
         const conexao = await clienteMongo.connect()
         app.locals.bd = conexao.db()
         console.log(`App conectado ao bd ${conexao.db().databaseName}`)

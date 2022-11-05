@@ -1,5 +1,5 @@
 {
     "env": {
-        "URI_BD": "mongodb://localhost:27017"
+        "URI_BD": "mongodb://127.0.0.1:27017/storage"
     }
 }
