@@ -5,8 +5,7 @@ const disciplina = Router;
 disciplina.post("/", async (req, res) => {
   async function validate(query) {
     if (
-      !!query.nome &&
-      !!query.codDisciplina &&
+      !!query.nome &&      
       !!query.idProfessor &&
       !!query.descricao &&
       !!query.semestre &&
@@ -28,7 +27,13 @@ disciplina.post("/", async (req, res) => {
     try {
       const insertOne = await client
         .collection("Disciplinas")
-        .insertOne(req.query);
+        .insertOne({
+          nome: req.query.nome,          
+          idProfessor: req.query.idProfessor,
+          descricao: req.query.descricao,
+          semestre: req.query.semestre,
+          cargahoraria: req.query.cargahoraria,
+        });
       res.json("OK");
     } catch (error) {
       res.json(error);
