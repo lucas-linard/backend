@@ -23,7 +23,7 @@
 			"const MongoClient = require('mongodb').MongoClient;",
 			"const sample = Router",
 			"",
-			"login.get('/', async (req, res) => {",
+			"sample.get('/', async (req, res) => {",
 				"",
 				"const client = req.app.locals.bd",
 				"const collection = client.collection('Usuarios');",
