@@ -1,5 +1,4 @@
 const Router = require("express").Router();
-const MongoClient = require("mongodb").MongoClient;
 const singUp = Router
 
 function validaEntrada(query) {
