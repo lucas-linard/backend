@@ -45,11 +45,12 @@ const fs = require('fs')
 
      _inicializarBucket() {
         return new mongo.GridFSBucket(this.Db, {
-            bucketName: 'arquivos'
+            bucketName: 'Projetos'
         })
     }
 
     realizarUpload(objArquivo) {
+        console.log(objArquivo)
         return new Promise((resolve, reject) => {
             if (this._ehUmObjetoDeArquivoValido(objArquivo)) {
                 const bucket = this._inicializarBucket()
@@ -66,15 +67,15 @@ const fs = require('fs')
                     // meta dados personalizados para salvar no banco
                     metadata: {
                         mimetype: objArquivo['mimetype'],
-                        dia: 'hoje'
-                        //id aluno
-                        //id do trabalho
-                        
+                        nomeProjeto: objArquivo['nomeProjeto'],
+                        descricao: objArquivo['descricao'],
+                        semestre: objArquivo['semestre'],
+                        idDisciplina: objArquivo['idDisciplina'],
+                        idUsuario: objArquivo['idUsuario']                                                
                     }
                 })
                 //TO DO : ID DO ARQUIVO TEM Q SER SALVO NO PROJETO NO BD
-                const streamLeitura = fs.createReadStream(caminhoArquivoTemp)
-                console.log(streamLeitura);
+                const streamLeitura = fs.createReadStream(caminhoArquivoTemp)            
                 
                 streamLeitura
                     .pipe(streamGridFS)

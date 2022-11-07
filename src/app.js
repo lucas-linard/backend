@@ -9,6 +9,7 @@ const signgUp = require('./routes/signUp')
 const login = require('./routes/login')
 const professores = require('./routes/professores')
 const disciplina = require('./routes/disciplina')
+const projeto = require('./routes/projeto')
 // import { downloadRouter } from './routes/download'
 // import { newUser } from './routes/newUser'
 // import { novaDisciplina } from './routes/novaDisciplin
@@ -25,6 +26,7 @@ app.use('/signUp', signgUp)
 app.use('/login', login)
 app.use('/professores', professores)
 app.use('/disciplina', disciplina)
+app.use('/projeto', projeto)
 // app.use('/download', downloadRouter)
 // app.use('/newUser', newUser)
 // app.use('/novaDisciplina', novaDisciplina)
