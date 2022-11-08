@@ -10,7 +10,7 @@ const login = require('./routes/login')
 const professores = require('./routes/professores')
 const disciplina = require('./routes/disciplina')
 const projeto = require('./routes/projeto')
-// import { downloadRouter } from './routes/download'
+const download = require('./routes/download')
 // import { newUser } from './routes/newUser'
 // import { novaDisciplina } from './routes/novaDisciplin
 const app = express()
@@ -27,6 +27,6 @@ app.use('/login', login)
 app.use('/professores', professores)
 app.use('/disciplina', disciplina)
 app.use('/projeto', projeto)
-// app.use('/download', downloadRouter)
+app.use('/download', download)
 // app.use('/newUser', newUser)
 // app.use('/novaDisciplina', novaDisciplina)

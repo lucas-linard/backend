@@ -1,11 +1,9 @@
-import { Router } from 'express'
-import { unlinkSync } from 'fs'
+const Router = require('express').Router()
+const unlinkSync = require('fs').unlinkSync
+const ArquivoController = require('../controllers/ArquivoController').ArquivoController
+const ErroDownload = require('../controllers/ArquivoController').ErroDownload
 
-import { ArquivoController, ErroDownload } from '../controllers/ArquivoController'
-
-export const downloadRouter = Router()
-
-downloadRouter.get('/:id', async (req, res) => {
+Router.get('/:id', async (req, res) => {
     const id = req.params.id
 
     const bd = req.app.locals.bd
@@ -30,3 +28,5 @@ downloadRouter.get('/:id', async (req, res) => {
         }
     }
 })
+
+module.exports = Router
