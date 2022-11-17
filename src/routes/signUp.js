@@ -1,51 +1,78 @@
 const Router = require("express").Router();
-const singUp = Router
+const nodemailer = require("nodemailer");
+require("dotenv").config();
+const singUp = Router;
 
-function validaEntrada(query) {
-    if (
-      !!query.nome ||
-      !!query.email ||
-      !!query.senha ||
-      !!query.perfil
-    )
-      return true;
-    else return false;
-  }
+function validaEntrada(body) {
+  if (!!body.nome || !!body.email || !!body.senha || !!body.perfil) return true;
+  else return false;
+}
 
-  function validaTipo(query) {
-    return query.perfil == "aluno" || query.perfil == "professor" ? true : false;
-  }
+function validaTipo(body) {
+  return body.perfil == "aluno" || body.perfil == "professor" ? true : false;
+}
 
-  function validaEmail(query) {
-    let domain = (query.email. substring(query.email. lastIndexOf('@') +1))
-    return domain == "ftc.edu.br" ? true : false;
-  }
+function validaEmail(body) {
+  let domain = body.email.substring(body.email.lastIndexOf("@") + 1);
+  return domain == "ftc.edu.br" ? true : false;
+}
 
-  function validaTudo(query) {
-    return validaEntrada(query) && validaTipo(query) && validaEmail(query) ? true : false;
-  }
- 
+function validaTudo(body) {
+  return validaEntrada(body) && validaTipo(body) && validaEmail(body)
+    ? true
+    : false;
+}
+
+const transporter = nodemailer.createTransport({
+  host: process.env.Emailhost,
+  port: process.env.Emailport,
+  auth: {
+    user: process.env.Emailuser,
+    pass: process.env.Emailpass,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
 singUp.post("/", async (req, res) => {
+  const client = req.app.locals.bd;
 
-    
-    const client = req.app.locals.bd
-  
+  const collection = client.collection("Usuarios");
 
-    const collection = client.collection('Usuarios');
-  
-    const dados = await collection.find({email: req.query.email}).toArray()
+  const dados = await collection.find({ email: req.body.email }).toArray();
 
-            
-    if( validaTudo(req.query) && dados.length == 0){
-      try {
-        const insertResult = await collection.insertOne(req.query);
-        res.json('OK');
-      } catch (error) {
-        res.json(error);
-      }
-    } else {
-      res.json("Entrada inválida");
-    }
+  if (validaTudo(req.body) && dados.length == 0) {  
+    const user = {
+      nome: req.body.nome,
+      email: req.body.email,
+      senha: req.body.senha,
+      perfil: req.body.perfil,
+      verificado: false,
+    };
+     try {
+    const insertResult = await collection.insertOne(user);
+    const mailSent = await transporter.sendMail({
+      text: `Para sua segurança, e autenticar que é você quem está acessando o sistema, por favor, utilize o link abaixo para confirmar sua conta ${
+        process.env.hostfront
+      }verify?token=${insertResult.ops[0]._id.toString()}`,
+      subject: "verificação de email",
+      from: `BSI DRIVE <${process.env.Emailuser}>`,
+      to: req.body.email,
+    });
+
+    res.status(201).send(mailSent);
+     } catch (error) {
+      console.log(error);
+      res.status(400).send(error);
+    } 
+  } else if (!validaTudo(req.body)) {
+    res.status(401).send("dados invalidos");
+  } else if (dados.length > 0) {
+    res.status(406).send("email ja cadastrado");
+  } else {
+    res.status(400).send("erro");
+  }
 });
 
 module.exports = singUp;

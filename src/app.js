@@ -3,7 +3,7 @@ const  fileUpload = require('express-fileupload')
 const cors = require('cors')
 const logger = require('morgan')
 
-// import { uploadRouter } from './routes/upload'
+//import das routes
 const uploadRouter = require('./routes/upload')
 const signgUp = require('./routes/signUp')
 const login = require('./routes/login')
@@ -11,15 +11,15 @@ const professores = require('./routes/professores')
 const disciplina = require('./routes/disciplina')
 const projeto = require('./routes/projeto')
 const download = require('./routes/download')
-// import { newUser } from './routes/newUser'
-// import { novaDisciplina } from './routes/novaDisciplin
-const app = express()
+const mail = require('./routes/mail')
 
+const app = express()
+app.use(express.json())
 app.use(cors())
 app.use(logger('dev'))
 app.use(fileUpload())
 
-module.exports = app
+
 
 app.use('/upload', uploadRouter)
 app.use('/signUp', signgUp)
@@ -28,5 +28,7 @@ app.use('/professores', professores)
 app.use('/disciplina', disciplina)
 app.use('/projeto', projeto)
 app.use('/download', download)
-// app.use('/newUser', newUser)
-// app.use('/novaDisciplina', novaDisciplina)
+app.use('/mail', mail)
+
+
+module.exports = app

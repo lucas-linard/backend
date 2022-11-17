@@ -3,16 +3,15 @@ const ObjectId = require("mongodb").ObjectId;
 const disciplina = Router;
 
 disciplina.post("/", async (req, res) => {
-  async function validate(query) {
+  async function validate(body) {
     if (
-      !!query.nome &&      
-      !!query.idProfessor &&
-      !!query.descricao &&
-      !!query.semestre &&
-      !!query.cargahoraria
+      !!body.nome &&      
+      !!body.idProfessor &&      
+      !!body.semestre &&
+      !!body.cargahoraria
     ) {
       const findProfessor = await collection
-        .find(ObjectId(query.idProfessor))
+        .find(ObjectId(body.idProfessor))
         .toArray();
       return findProfessor.length == 1 && findProfessor[0].perfil == "professor"
         ? true
@@ -22,24 +21,24 @@ disciplina.post("/", async (req, res) => {
 
   const client = req.app.locals.bd;
   let collection = client.collection("Usuarios");
-  let isValid = await validate(req.query);
+  let isValid = await validate(req.body);
   if (isValid) {
     try {
       const insertOne = await client
         .collection("Disciplinas")
         .insertOne({
-          nome: req.query.nome,          
-          idProfessor: req.query.idProfessor,
-          descricao: req.query.descricao,
-          semestre: req.query.semestre,
-          cargahoraria: req.query.cargahoraria,
+          nome: req.body.nome,          
+          idProfessor: req.body.idProfessor,
+          descricao: req.body.descricao,
+          semestre: req.body.semestre,
+          cargahoraria: req.body.cargahoraria,
         });
-      res.json("OK");
+      res.status(200).send("OK");
     } catch (error) {
-      res.json(error);
+      res.status(400).send(error);
     }
   } else {
-    res.json("Entrada inválida");
+    res.status(400).send("Entrada inválida");
   }
 });
 module.exports = disciplina;
