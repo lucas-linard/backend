@@ -44,8 +44,16 @@ disciplina.post("/", async (req, res) => {
 
 disciplina.get("/", async (req,res) => {
   const client = req.app.locals.bd;
-  const collection = client.collection("Disciplinas");
-  const dados = await collection.find({}).toArray();
-  res.status(200).send(dados);
+
+  let collection = client.collection("Usuarios");
+  const findUser = collection.find({_id: ObjectId(req.query.id)}).toArray();
+  if(findUser.length == 1 ){
+    collection = client.collection("Disciplinas");
+    const dados = await collection.find({}).toArray();
+    res.status(200).send(dados);
+  }else {
+    res.status(400).send("token invalido!");
+  }
+   
 })
 module.exports = disciplina;
