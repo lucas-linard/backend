@@ -2,11 +2,11 @@ const Router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const login = Router;
 
-login.get("/", async (req, res) => {
+login.post("/", async (req, res) => {
   const client = req.app.locals.bd;
   const collection = client.collection("Usuarios");
   const dados = await collection
-    .find({ email: req.body.user, senha: req.body.senha })
+    .find({ email: req.query.user, senha: req.query.senha })
     .toArray();
 
   if (dados.length == 1) {
