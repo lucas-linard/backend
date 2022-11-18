@@ -1,4 +1,5 @@
 node_modules/
 arquivos_temporarios/
 arquivos/
-..env
+*.env
+*.gitignore
