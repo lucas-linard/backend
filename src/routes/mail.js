@@ -26,7 +26,7 @@ mail.get("/verificar", async (req, res) => {
     );
     res.redirect("https://frontend-one-pi.vercel.app/EmailConfirm");
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send("<h1>erro ao verificar usuario, entrar em contato com equipe de suporte</h1>");
   }
 });
 
