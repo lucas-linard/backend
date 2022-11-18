@@ -13,7 +13,7 @@ disciplina.post("/", async (req, res) => {
       const findProfessor = await collection
         .find(ObjectId(body.idProfessor))
         .toArray();
-      return findProfessor.length == 1 && findProfessor[0].perfil == "professor"
+      return findProfessor.length == 1 && findProfessor[0].perfil == "professor" && findProfessor[0].verificado == true
         ? true
         : false;
     } else return false;
@@ -41,4 +41,11 @@ disciplina.post("/", async (req, res) => {
     res.status(400).send("Entrada inválida");
   }
 });
+
+disciplina.get("/", async (req,res) => {
+  const client = req.app.locals.bd;
+  const collection = client.collection("Disciplinas");
+  const dados = await collection.find({}).toArray();
+  res.status(200).send(dados);
+})
 module.exports = disciplina;
