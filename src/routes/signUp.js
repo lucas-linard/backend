@@ -23,6 +23,12 @@ function validaTudo(body) {
     : false;
 }
 
+async function validaProfessor(client,body) {
+  const collection = client.collection("Professores");
+  const professores = await collection.find({ email: body.email }).toArray();
+  return professores.length == 1 ? true : false;
+}
+
 const transporter = nodemailer.createTransport({
   host: process.env.Emailhost,
   port: process.env.Emailport,
@@ -39,9 +45,17 @@ singUp.post("/", async (req, res) => {
   const client = req.app.locals.bd;
 
   const collection = client.collection("Usuarios");
-
+  // verifica se o email já existe
   const dados = await collection.find({ email: req.body.email }).toArray();
-
+  
+  if (req.body.perfil == "professor") {
+    const professor = await validaProfessor(client, req.body);
+    if (!professor) {
+      res.status(400).send({ message: "Professor não cadastrado" });
+      return;
+    }
+  }
+  // se não existir, cria o usuário
   if (validaTudo(req.body) && dados.length == 0) {  
     const user = {
       nome: req.body.nome,
