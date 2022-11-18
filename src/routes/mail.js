@@ -16,15 +16,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-mail.post("/verificar", async (req, res) => {
+mail.get("/verificar", async (req, res) => {
   const client = req.app.locals.bd;
   const collection = client.collection("Usuarios");
   try {    
     const update = await collection.updateOne(
-      { _id: new ObjectId(req.body.token) },
+      { _id: new ObjectId(req.query.token) },
       { $set: { verificado: true } }
     );
-    res.status(200).send({ message: "OK" });
+    res.redirect("https://frontend-one-pi.vercel.app/EmailConfirm");
   } catch (error) {
     res.status(400).send(error);
   }

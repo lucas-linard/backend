@@ -68,8 +68,8 @@ singUp.post("/", async (req, res) => {
     const insertResult = await collection.insertOne(user);
     const mailSent = await transporter.sendMail({
       text: `Para sua segurança, e autenticar que é você quem está acessando o sistema, por favor, utilize o link abaixo para confirmar sua conta ${
-        process.env.hostfront
-      }verify?token=${insertResult.ops[0]._id.toString()}`,
+        process.env.host
+      }/mail/verificar?token=${insertResult.ops[0]._id.toString()}`,
       subject: "verificação de email",
       from: `BSI DRIVE <${process.env.Emailuser}>`,
       to: req.body.email,
