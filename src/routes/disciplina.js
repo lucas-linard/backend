@@ -46,7 +46,7 @@ disciplina.get("/", async (req,res) => {
   const client = req.app.locals.bd;
 
   let collection = client.collection("Usuarios");
-  const findUser = collection.find({_id: ObjectId(req.query.id)}).toArray();
+  const findUser = await collection.find({_id: ObjectId(req.query.id)}).toArray();  
   if(findUser.length == 1 ){
     collection = client.collection("Disciplinas");
     const dados = await collection.find({}).toArray();
