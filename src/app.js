@@ -18,6 +18,7 @@ app.use(express.json())
 app.use(cors({
     origin: '*'
 }))
+app.use(express.urlencoded({ extended: true }));
 app.options('*', cors());
 app.use(logger('dev'))
 app.use(fileUpload())
