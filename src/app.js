@@ -16,6 +16,7 @@ const mail = require('./routes/mail')
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.options('*', cors());
 app.use(logger('dev'))
 app.use(fileUpload())
 
