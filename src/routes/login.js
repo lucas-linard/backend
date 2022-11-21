@@ -23,7 +23,7 @@ login.post("/", async (req, res) => {
       );
       res
         .status(200)
-        .send({ message: "Autenticado com sucesso", token: token });
+        .send({ message: "Autenticado com sucesso",id: dados[0]._id.toString(), token: token });
     } else if (!dados[0].verificado) {
       res.status(401).send({ message: "Email não verificado" });
     }
