@@ -3,7 +3,7 @@ const objectId = require('mongodb').ObjectId
 const professores = Router
 
 professores.get('/', async (req, res) => {
-
+//
 const client = req.app.locals.bd
 let collection = client.collection('Usuarios');
 try {
